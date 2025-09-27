@@ -16,7 +16,7 @@ class Server {
     static ARG_PART = 2;
     
     constructor() {
-        this.port = process.env.port || 8000;
+        this.port = process.env.port;
         this.server = http.createServer((req, res) => {
             // I searched it and this is a more modern way, as just
             // url.parse() was deprecated
