@@ -26,7 +26,10 @@ class Server {
             const url_parts = req_url.pathname.split("/");
         
             if(req.method === Server.GET_REQ) {
-                if(req_url.pathname === Server.GET_DATE_ROUTE) {
+                if (url.pathname === "/") {
+                res.writeHead(200, { "Content-Type": "text/plain" });
+                res.end("Server is running!");
+                } else if(req_url.pathname === Server.GET_DATE_ROUTE) {
                     const name = req_url.searchParams.get(GetDate.URL_PARAM);
                     GetDate.send_res(name, res);
                 } else if(req_url.pathname === Server.WRITE_FILE_ROUTE) {
