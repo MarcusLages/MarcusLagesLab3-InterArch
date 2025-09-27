@@ -16,7 +16,7 @@ class Server {
     static ARG_PART = 2;
     
     constructor() {
-        this.port = process.env.port;
+        this.port = process.env.PORT || 8000;
         this.server = http.createServer((req, res) => {
             // I searched it and this is a more modern way, as just
             // url.parse() was deprecated
@@ -26,10 +26,7 @@ class Server {
             const url_parts = req_url.pathname.split("/");
         
             if(req.method === Server.GET_REQ) {
-                if (req_url.pathname === "/") {
-                res.writeHead(200, { "Content-Type": "text/plain" });
-                res.end("Server is running!");
-                } else if(req_url.pathname === Server.GET_DATE_ROUTE) {
+                if(req_url.pathname === Server.GET_DATE_ROUTE) {
                     const name = req_url.searchParams.get(GetDate.URL_PARAM);
                     GetDate.send_res(name, res);
                 } else if(req_url.pathname === Server.WRITE_FILE_ROUTE) {
@@ -51,9 +48,7 @@ class Server {
 
     start() {
         this.server.listen(this.port, () => {
-            const addr = this.server.address();
-            const host_ip = addr.address === "::" ? "localhost" : addr.address;
-            console.log(`Server listening on http://${host_ip}:${this.port}`);
+            console.log(`Server listening on port ${this.port}`);
         });
     }
 }
