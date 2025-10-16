@@ -26,7 +26,9 @@ class Server {
             const url_parts = req_url.pathname.split("/");
         
             if(req.method === Server.GET_REQ) {
-                if(req_url.pathname === Server.GET_DATE_ROUTE) {
+                if(req_url.pathname === Server.GET_DATE_ROUTE ||
+                    req_url.pathname.slice(0, -1) === Server.GET_DATE_ROUTE
+                ) {
                     const name = req_url.searchParams.get(GetDate.URL_PARAM);
                     GetDate.send_res(name, res);
                 } else if(req_url.pathname === Server.WRITE_FILE_ROUTE) {
@@ -39,6 +41,7 @@ class Server {
                     const filename = url_parts[Server.ARG_PART];
                     FileHandler.read_file_res(filename, res);
                 } else {
+                    console.log(req_url.pathname)
                     res.writeHead(utils.RES_NOT_FOUND, { "Content-Type": "text/plain" });
                     res.end(messages.MESSAGES[messages.NOT_FOUND_KEY]);
                 }
