@@ -31,11 +31,14 @@ class Server {
                 ) {
                     const name = req_url.searchParams.get(GetDate.URL_PARAM);
                     GetDate.send_res(name, res);
-                } else if(req_url.pathname === Server.WRITE_FILE_ROUTE) {
+                } else if(req_url.pathname === Server.WRITE_FILE_ROUTE ||
+                    req_url.pathname.slice(0, -1) === Server.WRITE_FILE_ROUTE
+                ) {
                     const text = req_url.searchParams.get(FileHandler.WRITE_URL_PARAM);
                     FileHandler.write_file_res(text, res);
                 } else if(
-                    url_parts[Server.URL_PART] === Server.READ_FILE_ROUTE 
+                    (url_parts[Server.URL_PART] === Server.READ_FILE_ROUTE  ||
+                    req_url.pathname.slice(0, -1) === Server.READ_FILE_ROUTE)
                     && url_parts[Server.ARG_PART] 
                 ) {
                     const filename = url_parts[Server.ARG_PART];
